@@ -1,21 +1,18 @@
+let fondo = document.getElementById("tablero").getContext("2d");
 let palabraEscogida = "HTML";
 let palabrasSecretas = ["HTML", "WEB","JAVASCRIPT","ALURA"];
 let cantidadGuiones = 0;
-let pantalla = document.querySelector("canvas");
-let fondo = pantalla.getContext("2d"); 
-let colorFondo = 'grey'
-fondo.fillStyle = 'grey';
-fondo.fillRect(0,0,600,400);
-let posicionLineaInicial = 150
-let posicionLineaActual = posicionLineaInicial;
-let baseLinea = 20;
-let alturaLinea = 5;
-let espacioEntreLineas = 50;
-let letrasIncorrectas = document.getElementById('letrasIncorrectas');
+let perdiste = 5;
+let contadorPerdida = 0;
+let teclasIncorrectas = [];
+let indice = 0;
 
-function dibujarAhorcado(){
-    actualizarPantalla()
-    dibujarGuiones(contarGuiones(escogerPalabraSecreta()))
+
+function empezarJuego(){
+    document.getElementById("iniciar-juego").style.display = "none";
+    borrarLetras();
+    actualizarPantalla();   
+    dibujarGuiones(escogerPalabraSecreta()); 
 }
 
 function escogerPalabraSecreta(){
@@ -27,23 +24,9 @@ function getPalabraEscogida(){
     return palabraEscogida;
 }
 
-function contarGuiones(palabraEscogida){
-    palabraEscogida = getPalabraEscogida();
-    let cantidadGuiones = palabraEscogida.length;
-    return cantidadGuiones;
-}
-
-function dibujarGuiones(cantidadGuiones){
-    for(let i=0; i<cantidadGuiones; i++){
-        fondo.fillStyle = "white";
-        fondo.fillRect(posicionLineaActual,300,baseLinea,alturaLinea);
-        posicionLineaActual+=espacioEntreLineas;
-    }
-    posicionLineaActual = posicionLineaInicial;
-}
-function actualizarPantalla(){
-    fondo.fillStyle = colorFondo;
-    fondo.fillRect(0, 0, 600, 400);
+function borrarLetras(){
+    teclasIncorrectas = [];
+    indice = 0;
 }
 
 function verificarTeclaPresionada(teclaPresionada){
@@ -60,23 +43,38 @@ function verificarTeclaPresionada(teclaPresionada){
 function verificarLetraEnPalabra(teclaPresionada){
     let tecla = teclaPresionada.toUpperCase();
     let palabra = getPalabraEscogida();
+    let encontrada = false;
     for(let i = 0; i < palabra.length; i++){
         if(tecla == palabra[i]){
-            dibujarLetraCorrecta(palabra[i]);
-        } else{
-            dibujarLetraIncorrecta();
-
+            dibujarLetraCorrecta(palabra[i])
+            encontrada = true;
+            break;
         }
-    }   
-}
+    }
+    if(!encontrada){
+        teclasIncorrectas[indice] = tecla;
+        indice++;
+        //contadorPerdida++;
+        dibujarLetraIncorrecta(teclasIncorrectas);
+        } 
+}   
+
 function dibujarLetraCorrecta(letraCorrecta){
+    let palabra = getPalabraEscogida();
     let letra = letraCorrecta;
     console.log(letra);
+    for(let i = 0; i < palabra.length; i++){
+        if(letraCorrecta == palabra[i]){
+            document.getElementById('letrasCorrectas').innerHTML = letra;
+        } else {
+            document.getElementById('letrasCorrectas').innerHTML = " ";
+        }
+    }
 }
 
-function dibujarLetraIncorrecta(){
-    console.log("_");
-
+function dibujarLetraIncorrecta(letrasIncorrectas){
+    let letras = letrasIncorrectas;
+    document.getElementById('letrasIncorrectas').innerHTML = letras;
 }
 
 //El evento 'keydown' dispara cuando una letra se presiona, el parámetro e contiene información
@@ -84,4 +82,4 @@ function dibujarLetraIncorrecta(){
 document.addEventListener("keydown", e=>{
     verificarTeclaPresionada(e.key)
 });
-dibujarAhorcado()
+empezarJuego()
