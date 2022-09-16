@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Ahorcado</title>
+        <title>Jugar - Ahorcado Alura</title>
     </head>
     <body>
 
@@ -15,26 +15,35 @@
         <meta name="viewport" content="width=device-width">
         <title> Encriptador </title>
         <link rel="stylesheet" href="reset.css">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="styles.css">       
     </head>
     <body>
         <header>
-            <h1>Ahorcado Alura</h1>
-        </header>
+            <div class="logoAlura">
 
+            </div>
+        </header>
         <main class="entero">
-            <div class="ahorcado">
+            <div class="juego">
+                <div class="ahorcado">
+                    <canvas width="600" height="400"> </canvas>
+                </div>
+                <div class="letrasErradas">
+
+                </div>
                 <p>Area para jugar</p>
             </div>
             <div class="botones">
-                <button class="blueButton">Nuevo Juego</button>
+                <input type="button" class ="blueButton" value="Nuevo Juego" onclick="escogerPalabraSecreta();">
                 <button class="greyButton">Desistir</button>            
             </div>
-
+               
         </main>
+        
         <footer>
             <p> Hecho por mi uwu </p>
         </footer>
+        <script src="script.js"></script>
     </body>
 
 </html>
